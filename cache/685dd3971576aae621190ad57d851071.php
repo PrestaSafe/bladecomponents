@@ -1,0 +1,1 @@
+Footer <?php /**PATH /Users/guillaume/Apps/bladecomponents/modules/footer.blade.php ENDPATH**/ ?>
