@@ -43,8 +43,14 @@
         </div>
         
         <h2 class="text-xl font-semibold mb-3">Avec des attributs additionnels</h2>
-        <div class="demo-grid">
-            <x-button x-data="{}" @click="alert('Cliqué!')">Avec Alpine.js</x-button>
+        <div class="demo-grid" x-data="{ count: 0 }">
+            <x-button x-on:click="count++">
+                Compteur: <span x-text="count"></span>
+            </x-button>
+            <div class="flex items-center gap-2">
+                <x-button x-on:click="count = 0" variant="outline" size="sm">Réinitialiser</x-button>
+                <span>Valeur actuelle: <strong x-text="count"></strong></span>
+            </div>
             <x-button id="special-button" data-testid="test-button">Avec attributs</x-button>
         </div>
     </div>

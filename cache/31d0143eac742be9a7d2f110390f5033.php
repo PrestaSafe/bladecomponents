@@ -1,12 +1,36 @@
-@props([
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag; ?>
+<?php foreach($attributes->onlyProps([
     'type' => 'button',
     'variant' => 'primary',
     'size' => 'md',
     'disabled' => false,
     'class' => '',
-])
+]) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+} ?>
+<?php $attributes = $attributes->exceptProps([
+    'type' => 'button',
+    'variant' => 'primary',
+    'size' => 'md',
+    'disabled' => false,
+    'class' => '',
+]); ?>
+<?php foreach (array_filter(([
+    'type' => 'button',
+    'variant' => 'primary',
+    'size' => 'md',
+    'disabled' => false,
+    'class' => '',
+]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+} ?>
+<?php $__defined_vars = get_defined_vars(); ?>
+<?php foreach ($attributes as $__key => $__value) {
+    if (array_key_exists($__key, $__defined_vars)) unset($$__key);
+} ?>
+<?php unset($__defined_vars); ?>
 
-@php
+<?php
     $baseClasses = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
     
     $variantClasses = [
@@ -37,8 +61,9 @@
     if ($disabled) {
         $attributes = $attributes->merge(['disabled' => 'disabled']);
     }
-@endphp
+?>
 
-<button {!! $attributes !!}>
-    {{ $slot }}
-</button> 
+<button <?php echo $attributes; ?>>
+    <?php echo e($slot, false); ?>
+
+</button> <?php /**PATH /Users/guillaume/Apps/bladecomponents/src/views/components/button.blade.php ENDPATH**/ ?>

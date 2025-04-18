@@ -13,14 +13,14 @@
     $finalClasses = "{$baseClasses} {$bgColor} {$textColor} {$class}";
 ?>
 
-<header class="<?php echo e($finalClasses); ?>">
+<header class="<?php echo e($finalClasses, false); ?>">
     <div class="container mx-auto">
         <?php if(!empty($title)): ?>
-            <h1 class="<?php echo e($titleClasses); ?>"><?php echo e($title); ?></h1>
+            <h1 class="<?php echo e($titleClasses, false); ?>"><?php echo e($title, false); ?></h1>
         <?php endif; ?>
         
         <?php if(!empty($subtitle)): ?>
-            <p class="<?php echo e($subtitleClasses); ?>"><?php echo e($subtitle); ?></p>
+            <p class="<?php echo e($subtitleClasses, false); ?>"><?php echo e($subtitle, false); ?></p>
         <?php endif; ?>
         
         <?php if($showNavigation): ?>
@@ -36,7 +36,7 @@
         
         <?php if(!empty($slot)): ?>
             <div class="mt-4">
-                <?php echo e($slot); ?>
+                <?php echo e($slot, false); ?>
 
             </div>
         <?php endif; ?>
