@@ -1,0 +1,64 @@
+{# 
+  Button component - A flexible button component with various styles and sizes
+  
+  Parameters:
+    - type: button|submit|reset (default: 'button')
+    - variant: primary|secondary|success|danger|warning|outline (default: 'primary')
+    - size: sm|md|lg (default: 'md')
+    - disabled: true|false (default: false)
+    - class: additional CSS classes (default: '')
+    - attrs: any additional HTML attributes to apply to the button
+    - content: HTML content for the button (alternative to content block)
+#}
+
+{% set base_classes = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2' %}
+
+{% set variant_classes = {
+    'primary': 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    'secondary': 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
+    'success': 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
+    'danger': 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+    'warning': 'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500',
+    'outline': 'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500'
+} %}
+
+{% set size_classes = {
+    'sm': 'px-2.5 py-1.5 text-xs',
+    'md': 'px-4 py-2 text-sm',
+    'lg': 'px-6 py-3 text-base'
+} %}
+
+{% set disabled_classes = 'opacity-50 cursor-not-allowed' %}
+
+{% set type = type|default('button') %}
+{% set variant = variant|default('primary') %}
+{% set size = size|default('md') %}
+{% set disabled = disabled|default(false) %}
+{% set class = class|default('') %}
+
+{% set classes = base_classes ~ ' ' ~ 
+                 (variant_classes[variant] ?? variant_classes['primary']) ~ ' ' ~ 
+                 (size_classes[size] ?? size_classes['md']) ~ ' ' ~ 
+                 (disabled ? disabled_classes : '') ~ ' ' ~ 
+                 class %}
+
+<button 
+    type="{{ type }}" 
+    class="{{ classes }}"
+    {% if disabled %}disabled{% endif %}
+    {% for attr, value in attrs|default({}) %}
+        {% if attr != 'type' and attr != 'class' and attr != 'disabled' %}
+            {% if value is same as(true) %}
+                {{ attr }}
+            {% else %}
+                {{ attr }}="{{ value }}"
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+>
+    {% if content is defined %}
+        {{ content }}
+    {% elseif block('content') is defined %}
+        {{ block('content') }}
+    {% endif %}
+</button> 

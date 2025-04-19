@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démo Composants Twig</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Démonstration des Composants Twig</h1>
+        
+        <h2 class="text-2xl font-semibold mb-4">Composant Card tst</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            {# Card basique avec la nouvelle syntaxe #}
+            {% card :variant="default" :shadow="md" :rounded="lg" :x-data="{count: 0, open: false}" %}
+                {% block header %}
+                    <h3 class="text-lg font-medium mb-2">Carte simple</h3>
+                {% endblock %}
+                
+                {% block content %}
+                    <p>Voici un exemple de carte avec du contenu simple.
+                        TEST
+                    </p>
+                     <button x-on:click="open = ! open">Toggle Dropdown</button>
+ 
+                    {% button :variant="outline" :size="sm" x-on:click="open = !open" %}Toggle Alpine{% endbutton %}
+                    <span x-html="open ? 'Open' : 'Close'"></span>
+                    {% button :variant="outline" :size="sm" x-show="open" x-on:click="count++" %}Click me{% endbutton %}
+                    <p x-text="count"></p>
+                {% endblock %}
+                
+                {% block footer %}
+                    <p class="text-sm text-gray-500">Dernière mise à jour: aujourd'hui</p>
+                {% endblock %}
+            {% endcard %}
+            
+            {# Card avec tous les slots avec la nouvelle syntaxe #}
+            {% card :variant="primary" :shadow="lg" %}
+                <div slot="header">
+                    <h3 class="text-lg font-medium">Carte complète</h3>
+                </div>
+                
+                <p>Cette carte utilise tous les slots disponibles: header, content, actions et footer.</p>
+                
+                <div slot="actions">
+                    {% button :variant="outline" :size="sm" %}Annuler{% endbutton %}
+                    {% button :variant="primary" :size="sm" %}Valider{% endbutton %}
+                </div>
+                
+                <div slot="footer">
+                    <p class="text-sm text-gray-500">Dernière mise à jour: aujourd'hui</p>
+                </div>
+            {% endcard %}
+        </div>
+        
+        <h2 class="text-2xl font-semibold mb-4">Composant Button</h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            {# Variantes de boutons avec la nouvelle syntaxe #}
+            <div class="flex flex-col space-y-2">
+                {% button :variant="primary" %}Bouton primary{% endbutton %}
+            </div>
+            <div class="flex flex-col space-y-2">
+                {% button :variant="secondary" %}Bouton secondary{% endbutton %}
+            </div>
+            <div class="flex flex-col space-y-2">
+                {% button :variant="success" %}Bouton success{% endbutton %}
+            </div>
+            <div class="flex flex-col space-y-2">
+                {% button :variant="danger" %}Bouton danger{% endbutton %}
+            </div>
+            <div class="flex flex-col space-y-2">
+                {% button :variant="warning" %}Bouton warning{% endbutton %}
+            </div>
+            <div class="flex flex-col space-y-2">
+                {% button :variant="outline" %}Bouton outline{% endbutton %}
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-4 mb-12">
+            {# Tailles de boutons avec la nouvelle syntaxe #}
+            <div class="flex flex-col items-center">
+                {% button :variant="primary" :size="sm" %}Taille sm{% endbutton %}
+            </div>
+            <div class="flex flex-col items-center">
+                {% button :variant="primary" :size="md" %}Taille md{% endbutton %}
+            </div>
+            <div class="flex flex-col items-center">
+                {% button :variant="primary" :size="lg" %}Taille lg{% endbutton %}
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-semibold mb-4">Exemple de formulaire</h2>
+        
+        {# Exemple de formulaire avec la nouvelle syntaxe #}
+        {% card :variant="default" :shadow="xl" :class="max-w-md mx-auto" %}
+            <div slot="header">
+                <h3 class="text-xl font-semibold">Formulaire de contact</h3>
+            </div>
+            
+            <form>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        Nom
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                           id="name" type="text" placeholder="Votre nom">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                        Email
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                           id="email" type="email" placeholder="Votre email">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="message">
+                        Message
+                    </label>
+                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                              id="message" rows="4" placeholder="Votre message"></textarea>
+                </div>
+            </form>
+            
+            <div slot="actions">
+                <button type="button" class="inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-blue-500 px-2.5 py-1.5 text-xs">Annuler manuel</button>
+                {% button :variant="primary" :type="submit" %}Envoyer{% endbutton %}
+            </div>
+        {% endcard %}
+        
+        <div class="mt-12">
+            <h2 class="text-2xl font-semibold mb-4">Exemples de code</h2>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h3 class="text-lg font-medium mb-2">Utilisation des composants</h3>
+                <pre class="bg-gray-100 p-4 rounded overflow-x-auto text-sm">
+{# Utilisation du composant button #}
+{% verbatim %}
+{% button :variant="primary" :size="md" %}Cliquez-moi{% endbutton %}
+
+{# Utilisation du composant card #}
+{% card :variant="primary" :shadow="lg" %}
+    <div slot="header"><h3>Titre</h3></div>
+    <p>Contenu</p>
+    <div slot="footer"><p>Pied de page</p></div>
+{% endcard %}
+{% endverbatim %}
+                </pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,102 @@
+{# 
+  Card component - A flexible card component with support for header, content, footer and actions
+  
+  Parameters:
+    - variant: default|primary|success|warning|danger (default: 'default')
+    - shadow: none|sm|md|lg|xl (default: 'md')
+    - rounded: none|sm|md|lg|xl|full (default: 'md') 
+    - class: additional CSS classes (default: '')
+    - attrs: any additional HTML attributes to apply to the card container
+    - header: HTML content for the header (alternative to header block)
+    - content: HTML content for the main content (alternative to content block)
+    - actions: HTML content for the actions (alternative to actions block)
+    - footer: HTML content for the footer (alternative to footer block)
+#}
+
+{% set base_classes = 'overflow-hidden border border-gray-200' %}
+
+{% set variant_classes = {
+    'default': 'bg-white',
+    'primary': 'bg-blue-50 border-blue-100',
+    'success': 'bg-green-50 border-green-100',
+    'warning': 'bg-yellow-50 border-yellow-100',
+    'danger': 'bg-red-50 border-red-100'
+} %}
+
+{% set shadow_classes = {
+    'none': '',
+    'sm': 'shadow-sm',
+    'md': 'shadow',
+    'lg': 'shadow-lg',
+    'xl': 'shadow-xl'
+} %}
+
+{% set rounded_classes = {
+    'none': 'rounded-none',
+    'sm': 'rounded-sm',
+    'md': 'rounded-md',
+    'lg': 'rounded-lg',
+    'xl': 'rounded-xl',
+    'full': 'rounded-full'
+} %}
+
+{% set variant = variant|default('default') %}
+{% set shadow = shadow|default('md') %}
+{% set rounded = rounded|default('md') %}
+{% set class = class|default('') %}
+
+{% set classes = base_classes ~ ' ' ~ 
+                 (variant_classes[variant] ?? variant_classes['default']) ~ ' ' ~ 
+                 (shadow_classes[shadow] ?? shadow_classes['md']) ~ ' ' ~ 
+                 (rounded_classes[rounded] ?? rounded_classes['md']) ~ ' ' ~ 
+                 class %}
+
+<div class="{{ classes }}" {% for attr, value in attrs|default({}) %}
+    {% if value is same as(true) %}
+        {{ attr }}
+    {% else %}
+        {{ attr }}="{{ value }}"
+    {% endif %}
+{% endfor %}>
+    {# Header slot - prioritize variable over block #}
+    {% if header is defined %}
+        <div class="border-b border-gray-200 px-4 py-3">
+            {{ header|raw }}
+        </div>
+    {% elseif block('header') is defined %}
+        <div class="border-b border-gray-200 px-4 py-3">
+            {{ block('header')|raw }}
+        </div>
+    {% endif %}
+    
+    {# Default slot (content) - prioritize variable over block #}
+    <div class="px-4 py-3">
+        {% if content is defined %}
+            {{ content|raw }}
+        {% elseif block('content') is defined %}
+            {{ block('content')|raw }}
+        {% endif %}
+    </div>
+    
+    {# Actions slot - prioritize variable over block #}
+    {% if actions is defined %}
+        <div class="px-4 py-2 bg-gray-50 flex justify-end space-x-2">
+            {{ actions|raw }}
+        </div>
+    {% elseif block('actions') is defined %}
+        <div class="px-4 py-2 bg-gray-50 flex justify-end space-x-2">
+            {{ block('actions')|raw }}
+        </div>
+    {% endif %}
+    
+    {# Footer slot - prioritize variable over block #}
+    {% if footer is defined %}
+        <div class="border-t border-gray-200 px-4 py-3">
+            {{ footer|raw }}
+        </div>
+    {% elseif block('footer') is defined %}
+        <div class="border-t border-gray-200 px-4 py-3">
+            {{ block('footer')|raw }}
+        </div>
+    {% endif %}
+</div> 
