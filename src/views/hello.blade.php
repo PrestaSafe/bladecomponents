@@ -4,7 +4,21 @@
     <x-header title="Mon titre" subtitle="Mon sous-titre" />
     <h1 class="text-2xl font-bold mb-4">Hello, {{ $name }}!</h1>
     <p class="text-gray-700">Welcome to Blade without Laravel!</p>
-    
+    <x-module-card variant="primary">
+        <x-slot name="header">
+            <h3>Titre de la carte</h3>
+        </x-slot>
+        
+        <p>Contenu principal (slot par défaut)</p>
+        
+        <x-slot name="actions">
+            <x-button>Action</x-button>
+        </x-slot>
+        
+        <x-slot name="footer">
+            <p>Pied de page</p>
+        </x-slot>
+    </x-module-card>
     <!-- Tests avec composant x-button et différentes syntaxes Alpine.js -->
     <div class="space-y-4">
         <!-- Test 1: Syntaxe x-on:click -->

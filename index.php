@@ -39,9 +39,11 @@ $blade->addComponents([
     ['name' => 'button', 'alias' => 'button'],
     ['name' => 'button-simple', 'alias' => 'btn'],
     ['name' => 'header-simple', 'alias' => 'header'],
+    ['name' => 'card', 'alias' => 'card'],
     
     // Composants dans /modules
     ['name' => 'footer', 'alias' => 'module-footer', 'namespace' => 'mymodules'],
+    ['name' => 'card', 'alias' => 'module-card', 'namespace' => 'mymodules'],
 ]);
 
 // Démarrer la sortie tampon pour capturer les erreurs éventuelles
