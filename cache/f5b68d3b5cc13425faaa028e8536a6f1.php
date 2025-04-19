@@ -145,14 +145,76 @@
             </button>
             <span>Compteur: <span x-text="count5"></span></span>
         </div>
-        
-        <!-- Test avec bouton HTML standard -->
-        <div x-data="{ counter: 0 }" class="p-4 border rounded">
-            <h3 class="font-bold">Bouton HTML standard</h3>
-            <button @click="counter++" class="px-4 py-2 bg-green-500 text-white rounded">
-                Incrémenter
+
+         <!-- Test 6: Syntaxe x-bind:click avec un attribut simple -->
+         <div x-data="{ count6: 0 }" class="p-4 border rounded">
+            <h3 class="font-bold">Test 6: x-bind:click simple</h3>
+            <button 
+                type="button" 
+                class="px-4 py-2 bg-blue-500 text-white rounded"
+                x-bind:class="{ 'bg-green-500': count6 > 0 }"
+                x-bind:click="count6++"
+            >
+                Incrémenter (x-bind:click)
             </button>
-            <span>Compteur: <span x-text="counter"></span></span>
+            <span>Compteur: <span x-text="count6"></span></span>
+        </div>
+        
+        <!-- Test avec fetch serveur -->
+        <div x-data="{ 
+            serverCount: 0, 
+            serverResponse: null,
+            incrementServer() {
+                this.serverCount++;
+                fetch('/server.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'counter=' + this.serverCount
+                })
+                .then(response => response.json())
+                .then(data => {
+                    this.serverResponse = data;
+                    console.log('Réponse du serveur:', data);
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                });
+            }
+        }" class="p-4 border rounded bg-gray-50">
+            <h3 class="font-bold">Test avec fetch côté serveur</h3>
+            <?php if (isset($component)) { $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.button','data' => ['@click' => 'incrementServer()','class' => 'bg-purple-500 hover:bg-purple-600']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['@click' => 'incrementServer()','class' => 'bg-purple-500 hover:bg-purple-600']); ?>
+                Incrémenter et envoyer au serveur
+             <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $attributes = $__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__attributesOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561)): ?>
+<?php $component = $__componentOriginald0f1fd2689e4bb7060122a5b91fe8561; ?>
+<?php unset($__componentOriginald0f1fd2689e4bb7060122a5b91fe8561); ?>
+<?php endif; ?>
+            <div class="mt-2">
+                <span>Compteur local: <span x-text="serverCount"></span></span>
+            </div>
+            <div class="mt-2" x-show="serverResponse">
+                <h4 class="font-semibold">Réponse du serveur:</h4>
+                <div class="bg-white p-2 rounded shadow-sm mt-1">
+                    <div><span class="font-medium">Message:</span> <span x-text="serverResponse?.message"></span></div>
+                    <div><span class="font-medium">Compteur reçu:</span> <span x-text="serverResponse?.counter"></span></div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -45,7 +45,7 @@ $blade->addComponents([
 ]);
 
 // Démarrer la sortie tampon pour capturer les erreurs éventuelles
-ob_start();
+// ob_start();
 
 try {
     // Rendre notre template avec les données
@@ -56,4 +56,4 @@ try {
 }
 
 // Afficher la sortie
-echo ob_get_clean(); 
+// echo ob_get_clean(); 
